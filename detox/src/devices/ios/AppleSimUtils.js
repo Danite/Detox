@@ -248,7 +248,7 @@ class AppleSimUtils {
   }
 
   _joinLaunchArgs(launchArgs) {
-    return _.map(launchArgs, (v, k) => `${k} "${v}"`).join(' ').trim();
+    return _.map(launchArgs, (v, k) => `-${k} "${v}"`).join(' ').trim();
   }
 
   async _launchMagically(frameworkPath, logsInfo, udid, bundleId, args, languageAndLocale) {
@@ -269,13 +269,13 @@ class AppleSimUtils {
       if (!!languageAndLocale && !!languageAndLocale.language) {
         launchBin += ` -AppleLanguages "(${languageAndLocale.language})"`;
       }
-  
+
       if (!!languageAndLocale && !!languageAndLocale.locale) {
         launchBin += ` -AppleLocale ${languageAndLocale.locale}`;
       }
 
     const result = await exec.execWithRetriesAndLogs(launchBin, undefined, statusLogs, 1);
-    
+
     log.info(`${bundleId} launched. The stdout and stderr logs were recreated, you can watch them with:\n` +
              `        tail -F ${logsInfo.absJoined}`);
 
